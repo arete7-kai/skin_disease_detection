@@ -31,10 +31,13 @@ export default function ImageUpload() {
     if (!file) return;
     setLoading(true);
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('image', file); 
+
+
+
 
     try {
-      const res = await fetch('http://localhost:8000/predict/', {
+      const res = await fetch('http://localhost:5000/upload', {  
         method: 'POST',
         body: formData,
       });
@@ -82,19 +85,17 @@ export default function ImageUpload() {
         {loading ? '🧠 Analyzing...' : '📤 Upload & Analyze'}
       </button>
 
-      {result && !result.error && (
-        <div className="bg-green-50 border border-green-200 p-4 rounded space-y-1">
-          <p className="text-green-800 font-semibold">
-            <strong>Prediction:</strong> {result.prediction}
-          </p>
-          <p className="text-green-700 text-sm">
-            <strong>Confidence:</strong> {(result.confidence * 100).toFixed(2)}%
-          </p>
-          <p className="text-gray-600 text-sm mt-2">
-            <strong>Advice:</strong> {result.advice}
-          </p>
-        </div>
-      )}
+          {result && !result.error && (
+      <div className="bg-green-50 border border-green-200 p-4 rounded space-y-1">
+        <p className="text-green-800 font-semibold">
+          <strong>Prediction:</strong> {result.prediction}
+        </p>
+        <p className="text-gray-600 text-sm mt-2">
+          <strong>Advice:</strong> {result.advice}
+        </p>
+      </div>
+    )}
+
 
       {result?.error && (
         <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded">
